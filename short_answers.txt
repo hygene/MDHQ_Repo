@@ -1,0 +1,21 @@
+
+**********************************************
+Short Technical Communication Questions
+**********************************************
+[1] O(n) means that an algorithm's performance is approximately proportional to the size of the dataset being processed.  An example of this might be scanning each item in a list of integers to find the maximum integer.  So if List 2 is twice the size of List 1,  the time to process List 2 is approximately twice the time to process List 1.
+
+O(n^2) means the performance is proportional to the square of the dataset's size.  For example, naive way to find duplicate values in array might be to iterate through an array, and for each iteration then iterate the rest of the array to find a duplicate.  Referring back to previous two lists, processing List 2 would take 4x longer than List 1.
+
+
+[2] QuickSort is performed by partitioning a dataset at a certain element (pivot), commonly this might be the midpoint.  Based on that pivot, the dataset is rearranged so that elements greater than the pivot element are moved to the right side of the pivot, and elements less than or equal to the pivot go on the left.  Once this is done, recursively perform this partition operation on the left and right halves of the dataset.  When these subarrays can't be further partitioned, the resulting concatenation of these sorted subarrays will result in the original dataest being sorted.  
+
+
+[3] A pointer is a reference to the memory address of a variable.  These memory addresses are consecutive so that incrementing an address by 1 lands you at the next address.  For example, if given a pointer to an array of integers (array memory is allocated contiguously), then incrementing the pointer by 1 points it to the next element in the array.	
+
+
+[4] The heap is used for dynamic allocation of memory for a program.  So allocating/freeing a new integer array with 4 elements would allocate/free 16 bytes of memory from the heap.  Since this allocation is dynamic, there is no pattern to how memory is allocated as opposed to Stack memory.
+
+Stack memory behaves in LIFO manner where memory is allocated/pushed onto the stack and only the last block of memory that was allocated is freed/popped.  Basic example would be the "main" function of a program pushes memory onto the stack, and calling function "a" from within "main" pushes memory on top of the stack again.  When function "a" returns, "a" is popped from the stack, and when "main" returns then that is popped as well.
+
+
+[5] A garbage collector automates memory management to remove the need for manually managing memory such as in C/C++.  Examples of languages having garbage collectors would be C# or Java.  There's much less potential for issues such as memory leaks (not freeing memory) and dangling pointers (dereferencing freed memory).  There is performance overhead though for the the garbage collector to continually poll for when it's able to free memory.
