@@ -111,8 +111,11 @@ class Sudoku_Solver
 		i = 0
 		b_unique = true
 
-		while b_unique && i < Sudoku_Board::SUDOKU_BOARD_DIMENSION
-			b_unique = b_unique and check_row_unique(i) and check_col_unique(i) and check_region_unique(i)
+		while b_unique && (i < Sudoku_Board::SUDOKU_BOARD_DIMENSION)
+			row_unique = check_row_unique(i)
+			col_unique = check_col_unique(i)
+			reg_unique = check_region_unique(i)
+			b_unique = 	row_unique && col_unique && reg_unique
 			i += 1
 		end
 		return b_unique
@@ -133,6 +136,7 @@ class Sudoku_Solver
 	private
 	def check_col_unique(c)
 		arr = @board.get_col(c)
+		# print "check unique col: ", arr.join(','),"\n"
 		return has_unique_vals(arr)
 	end
 
@@ -153,8 +157,8 @@ class Sudoku_Solver
 		arr.sort!
 		valid = true
 		i = 0
-		while i < Sudoku_Board::SUDOKU_BOARD_DIMENSION-2 && valid
-			if arr[i] != "-"  && arr[i+1] != "-" && arr[i] == arr[i+1]
+		while i < Sudoku_Board::SUDOKU_BOARD_DIMENSION-2 and valid
+			if arr[i] != "-"  and arr[i+1] != "-" and arr[i] == arr[i+1]
 				valid = false
 			end
 			i+=1
