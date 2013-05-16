@@ -19,9 +19,8 @@ class Sudoku_Solver
 		if !@b_solvable
 			puts "Board is not solvable, the board provided with pre-populated values already breaks Sudoku rules"
 		else
-			puts "Begin solving"
-			if solve_helper == false
-				solve_helper2
+			if solve_one == false
+				solve_brute
 			end
 			puts "Solved board:"
 			@board.print_board
@@ -30,7 +29,7 @@ class Sudoku_Solver
 
 	# Fill in squares where there's only 1 possibility.  Returns true if solved, false is not board isn't solved yet
 	private
-	def solve_helper
+	def solve_one
 		num_empty_squares = 0;
 		b_one_val_sq = false # represents whether squares were found having only 1 possible value, and them being set
 		
@@ -52,18 +51,58 @@ class Sudoku_Solver
 					end
 				end
 			end
-			# puts "num_empty_squares = ",num_empty_squares
-			# puts "b_one_val_sq = ",b_one_val_sq
-			# puts "modified board: "
-			# @board.print_board
 		end while num_empty_squares>0 and b_one_val_sq==true and board_unique==true # keep iterating when squares are modified and squares' available values need to be re-evaluated
 		return num_empty_squares == 0
 	end
 
 	# Brute force algorithm to solve rest of board
 	private 
-	def solve_helper2
+	def solve_brute
+		stack_empty_sq = []
+		stack_avail_val = []
+
+		for i in 0..Sudoku_Board::SUDOKU_BOARD_DIMENSION-1
+			for j in 0..Sudoku_Board::SUDOKU_BOARD_DIMENSION-1
+				if @board.get_square(i,j) == "-"
+					arr = available_vals(i,j)
+					stack_empty_sq.push([i,j])
+					stack_avail_val.push(arr)
+				end
+			end
+		end
+		solve_brute_recurse(stack_empty_sq, 0)
+	end
+
+	# Recursive helper method for solve_brute
+	# Params :
+	# 	stack_empty_sq - stack of empty squares' coordinates
+	# 	stack_avail_val - stack of available values.  array index matches index of stack_empty_sq
+	# 	sq_depth - index of current empty square from stack_empty_sq being evaluated
+	# 	val_depth - index of current available value being evaluated for the square indicated by sq_depth
+	private 
+	def solve_brute_recurse (stack_empty_sq, sq_depth)
+
+		coord = stack_empty_sq[sq_depth]
+		vals = available_vals(coord[0], coord[1])
 		
+		if vals.nil? or vals.length==0  # Backtrack, even on last square there should be atleast 1 available value
+			return false
+		else
+			if sq_depth == stack_empty_sq.length - 1  # on last empty sq with 1 value left
+				@board.set_square(coord[0], coord[1], vals[0])
+				return true
+			else  #recursive step
+				for i in 0..vals.length-1
+					@board.set_square(coord[0], coord[1], vals[i])
+					b_return = solve_brute_recurse(stack_empty_sq, sq_depth + 1)
+					if b_return == true
+						return true
+					end
+				end
+				@board.set_square(coord[0], coord[1], "-")
+				return false
+			end
+		end
 	end
 
 	# Checks if values in rows/cols/regions are unique
