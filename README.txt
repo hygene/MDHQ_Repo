@@ -1,4 +1,7 @@
+
+********************************************
 Sudoku Readme
+********************************************
 
 [Files]
 sudoku.rb - main entry point of program
@@ -38,15 +41,14 @@ Solved board:
 
 
 [Questions from PDF]
-[1] Sudoku_Solver::solve will first fill in any squares where there's only 1 possible value to fill in.  This operation will keep executing 
-	the puzzle is either solved or there are no more squares left where only 1 possible value exists.  Once these squares are handled,
-	use brute force to fill in rest of board.  Essentially for each empty square, try it's first available value.  Recursively move on to 
-	next empty square to try it's available value, when there's a dead end then backtrack while emptying out previously written squares 
-	until a square is reached where another value can be attempted.
+[1] Sudoku_Solver::solve will first fill in any squares where there's only 1 possible value to fill in.  This operation will keep executing the puzzle is either solved or there are no more squares left where only 1 possible value exists.  Once these squares are handled, use brute force to fill in rest of board.  Essentially for each empty square, try it's first available value.  Recursively move on to next empty square to try it's available value, when there's a dead end then backtrack while emptying out previously written squares until a square is reached where another value can be attempted.
 
 [2] 
 
-[3] Algorithm - Rather than trying to execute a backtracking algorithm starting at the very 1st empty square with all different possibilities, 
-	figured it'd be best to eliminate the obvious cases first.  If the puzzle hasn't been solved, then fall back on a backtracking algorithm.
+[3] Language - I chose Ruby because I had wanted to learn it anyways and this seemed like a good opportunity to jump in.  I had picked up Perl previously and figured it be similar enough to where I could have something built relatively rapidly. 
 
-[4] 
+	Algorithm - Rather than trying to execute a backtracking algorithm starting at the very 1st empty square with all different possibilities, figured it'd be best to eliminate the obvious cases first by continually filling in squares with only 1 possible value until none remain.  If the puzzle hasn't been solved, then fall back on a backtracking algorithm.
+
+	Classes - Sudoku_Board contains sudoku specific functions, which inherits from its Base class Board.  Board is there to allow potential reuse.  The solver and validator classes are there so as to decouple these functionalities from the main program or the Board itself.  
+
+[4] I definitely could have utilized unit testing ('test/unit') framework early on to save myself time in validating/debugging functions, but oversight on my part due to unfamiliarity with Ruby.  
